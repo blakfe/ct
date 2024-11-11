@@ -323,24 +323,8 @@
         function showLoginScreen() {
             document.querySelector('.loading-container').style.display = 'none';
             document.getElementById('loginScreen').style.display = 'block';
-        }
-        /* Flocos de neve */
-        .snowflake {
-            position: absolute;
-            top: -10px;
-            color: #fff;
-            font-size: 24px;
-            animation: fall linear infinite;
-            opacity: 0.8;
-        }
-
-        /* Animação dos flocos de neve */
-        @keyframes fall {
-            0% { transform: translateY(0); opacity: 1; }
-            100% { transform: translateY(100vh); opacity: 0; }
-        }
-
-        // Função de login
+        
+      // Função de login
 function login() {
     const loginInput = document.getElementById('loginInput').value;
     const validLogins = ['promo24', 'lipe', 'dsg91'];
@@ -359,48 +343,8 @@ function login() {
             document.querySelector('.login-container').innerHTML = '';
         }, 3000);
     }
-}
 
-       // Mostrar tela de produtos
-        function showProductsScreen() {
-            setTimeout(() => {
-                document.getElementById('productsScreen').style.display = 'block';
-            }, 500); // Exibe a tela de produtos após meio segundo
-        }
-    </script>
- 
-    <!-- Flocos de Neve -->
-    <div id="snowflakes"></div>
-
-    <!-- Cabeçalho -->
-    <header>Fim de Ano</header>
-
-    <!-- Conteúdo Principal -->
-    <section class="main-content">
-        <img src="https://i.ibb.co/F8BTSfp/bgg.png" alt="Kit de Presentes Natalinos">
-        <h2>Oferta Natalina</h2>
-        <p class="product-description">
-            baixa aqui nosso aplicativo somente para chip tim
-        </p>
-        <button class="buy-button">Comprar Agora por R$ 15,99</button>
-    </section>
-  
-  <script>
-        // Função para criar flocos de neve
-        function createSnowflakes() {
-            const snowflakesContainer = document.getElementById('snowflakes');
-            for (let i = 0; i < 50; i++) {
-                const snowflake = document.createElement('div');
-                snowflake.classList.add('snowflake');
-                snowflake.innerText = '❄';
-                snowflake.style.left = Math.random() * 100 + 'vw';
-                snowflake.style.animationDuration = Math.random() * 3 + 2 + 's';
-                snowflake.style.fontSize = Math.random() * 10 + 15 + 'px';
-                snowflakesContainer.appendChild(snowflake);
-            }
-        }
-        
-        // Inicializar flocos de neve
+       // Inicializar flocos de neve
         createSnowflakes();
     </script>
 
