@@ -3,277 +3,356 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>😊- Loja LIPE</title>
+    <title>PUBG Loading Screen</title>
     <style>
-        /* Estilos para a tela de carregamento */
-        body {
+        /* Reset CSS */
+        * {
             margin: 0;
             padding: 0;
-            height: 100vh;
-            background: url('https://img.freepik.com/fotos-gratis/vista-do-edificio-com-arquitetura-de-estilo-de-desenho-animado_23-2151154886.jpg?ga=GA1.1.196158466.1731114459&semt=ais_hybrid') no-repeat center center fixed;
-            background-size: cover;
-            font-family: 'Arial', sans-serif;
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
+            box-sizing: border-box;
         }
-        .overlay {
+
+        /* Tela de fundo */
+        body {
+            font-family: Arial, sans-serif;
+            background: url('https://www.shutterstock.com/image-photo/supply-drop-box-attached-blue-600nw-2470647249.jpg') no-repeat center center/cover;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Overlay escuro */
+        body::before {
+            content: "";
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.6); /* Escurecendo o fundo */
             z-index: 1;
         }
+
+        /* Efeito de fumaça */
+        .smoke {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 2;
+        }
+
+        .smoke::before, .smoke::after {
+            content: "";
+            position: absolute;
+            background: url('https://www.transparenttextures.com/patterns/asfalt-dark.png') no-repeat;
+            width: 300px;
+            height: 300px;
+            opacity: 0.15;
+            animation: smokeMove 10s linear infinite;
+            transform: scale(1.5);
+        }
+
+        .smoke::before {
+            top: -20%;
+            left: -20%;
+            animation-duration: 12s;
+            animation-direction: alternate;
+        }
+
+        .smoke::after {
+            top: 20%;
+            left: 20%;
+            animation-duration: 15s;
+            animation-direction: alternate-reverse;
+        }
+
+        @keyframes smokeMove {
+            0% { transform: translate(0, 0) scale(1.5); }
+            100% { transform: translate(50px, 50px) scale(1.5); }
+        }
+
+        /* Estilo do Container Principal */
+        .loading-container {
+            text-align: center;
+            position: relative;
+            width: 80%;
+            max-width: 400px;
+            z-index: 3; /* Aparece acima do overlay e da fumaça */
+        }
+
+        /* Logo do PUBG */
         .logo {
-            font-size: 40px;
+            font-size: 2em;
             font-weight: bold;
-            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.9);
-            z-index: 2;
+            letter-spacing: 2px;
+            text-transform: uppercase;
             margin-bottom: 20px;
+            animation: shine 2s infinite alternate;
         }
-        .loading-text {
-            font-size: 1.5em;
-            margin-bottom: 20px;
-            animation: fadeInOut 2s infinite;
-            z-index: 2;
+
+        /* Efeito de brilho no logo */
+        @keyframes shine {
+            from { text-shadow: 0 0 10px #fff, 0 0 20px #0f327d; }
+            to { text-shadow: 0 0 20px #0f327d, 0 0 30px #0f327d; }
         }
-        .loading-bar-container {
-            width: 60%;
-            height: 20px;
+
+        /* Barra de carregamento */
+        .loading-bar {
+            width: 100%;
             background-color: #333;
             border-radius: 10px;
             overflow: hidden;
-            margin: 20px 0;
-            z-index: 2;
+            position: relative;
+            height: 25px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
         }
-        .loading-bar {
-            height: 100%;
+
+        /* Efeito de onda no carregamento */
+        .progress {
             width: 0;
-            background-color: #4DF1F4;
+            height: 100%;
+            background: linear-gradient(135deg, #0f327d, #00b5e2);
             border-radius: 10px;
-            animation: loading 20s linear forwards;
+            animation: loadWave 8s linear infinite; /* Aumentei a duração da animação */
+            box-shadow: 0 0 20px rgba(56, 101, 199, 0.9), 0 0 30px rgba(56, 101, 196, 0.9);
         }
-        /* Animações */
-        @keyframes fadeInOut {
-            0%, 100% { opacity: 0; }
-            50% { opacity: 1; }
+
+        /* Animação da onda */
+        @keyframes loadWave {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
-        @keyframes loading {
-            0% { width: 0; }
-            100% { width: 100%; }
-        }
-        .tips {
-            font-size: 15px;
-            margin-top: 10px;
-            z-index: 2;
-        }
-        .main-screen {
-            display: none;
-            color: #fff;
-            z-index: 3;
-            text-align: center;
-        }
-        /* Estilos para a página de produtos */
-        header {
-            width: 100%;
-            background-color: #4DF1F4;
-            padding: 20px;
-            color: white;
-            font-size: 2em;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-            padding: 20px;
-            max-width: 1200px;
-            width: 100%;
-        }
-        .product-card {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            text-align: center;
-            transition: transform 0.3s ease;
-        }
-        .product-card:hover {
-            transform: translateY(-10px);
-        }
-        .product-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-bottom: 2px solid #f1f1f1;
-        }
-        .product-info {
-            padding: 15px;
-        }
-        .product-title {
-            font-size: 1.3em;
-            margin: 10px 0;
-        }
-        .product-description {
-            font-size: 0.9em;
-            color: #666;
-            margin-bottom: 10px;
-        }
-        .product-price {
+
+        /* Texto de carregamento */
+        .loading-text {
             font-size: 1.2em;
-            font-weight: bold;
-            color: #4DF1F4;
+            margin-top: 10px;
+            animation: fadeText 1.5s infinite;
         }
-        .add-to-cart {
-            background-color: #4DF1F4;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            margin-top: 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
+
+        /* Efeito de fade no texto */
+        @keyframes fadeText {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
-        .add-to-cart:hover {
-            background-color: #33b0b7;
+
+        /* Estilo das Dicas */
+        .tips {
+            font-size: 1em;
+            color: #ffdf40;
+            margin-top: 20px;
+            height: 20px;
+            animation: fadeText 2s infinite alternate;
         }
-        footer {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background-color: #4DF1F4;
+
+        /* Estilo da tela de login */
+        .login-container {
+            display: none;
+            text-align: center;
+            position: absolute;
+            z-index: 4;
+            color: #fff;
+        }
+
+        .login-input {
+            margin-top: 10px;
             padding: 10px;
-            color: white;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 5px;
+            width: 200px;
             text-align: center;
         }
 
-        /* Ajustes para responsividade */
-        @media (max-width: 768px) {
-            .product-grid {
-                padding: 10px;
-            }
-            .product-card {
-                font-size: 0.9em;
-            }
+        .login-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #0f327d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .login-button:hover {
+            background-color: #00b5e2;
+        }
+
+        .welcome-message {
+            font-size: 1.5em;
+            color: #ffdf40;
+        }
+
+        /* Estilo da tela de produtos */
+        .products-container {
+            display: none;
+            text-align: center;
+            position: relative;
+            z-index: 3;
+            padding: 20px;
+            width: 80%;
+            max-width: 600px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+        }
+
+        .product {
+            margin: 20px;
+            background: #333;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            animation: productAnimation 1s ease-out;
+        }
+
+        .product img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .product-title {
+            font-size: 1.5em;
+            color: #00b5e2;
+            margin-top: 10px;
+        }
+
+        @keyframes productAnimation {
+            0% { opacity: 0; transform: scale(0.5); }
+            100% { opacity: 1; transform: scale(1); }
         }
     </style>
 </head>
 <body>
+    <!-- Adicionando áudio de fundo -->
+    <audio id="bg-audio" autoplay loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        Seu navegador não suporta o formato de áudio.
+    </audio>
 
-    <!-- Música de fundo do YouTube (escondida inicialmente) -->
-    <div id="music-container" style="display: block;">
-        <iframe id="music-iframe" width="0" height="0" src="https://www.youtube.com/embed/Vzf4LKAfENs?autoplay=1&loop=1&playlist=Vzf4LKAfENs&controls=0&mute=0" frameborder="0" allow="autoplay"></iframe>
-    </div>
+    <div class="smoke"></div>
 
-    <!-- Tela de Carregamento -->
-    <div class="overlay"></div>
-    <div class="logo">LIPE</div>
-    <div class="loading-text" id="loadingText">
-        Carregando aguarde...
-    </div>
-    <div class="loading-bar-container">
-        <div class="loading-bar"></div>
-    </div>
-    <div class="tips">
-        <p>Carregando... Dica: Produtos e serviços digitias!</p>
-    </div>
+    <div class="loading-container">
+        <!-- Logo PUBG -->
+        <div class="logo">lipe</div>
 
-    <!-- Tela inicial que será exibida após o carregamento -->
-    <div class="main-screen" style="display: none;">
-        <h1>Bem-vindo à Loja LIPE!</h1>
-        <p>Explore os produtos e aproveite as ofertas!</p>
-        <button onclick="entrar()">Entrar</button>
-    </div>
-
-    <!-- Página de Produtos -->
-    <div class="product-page" style="display: none;">
-        <header>
-            Loja LIPE - Produtos em Oferta
-        </header>
-        <div class="product-grid">
-            <!-- Produto 1 -->
-            <div class="product-card">
-                <img src="https://via.placeholder.com/300x200" alt="Produto 1" class="product-image">
-                <div class="product-info">
-                    <h3 class="product-title">Produto 1</h3>
-                    <p class="product-description">Descrição breve do produto 1. Ótima qualidade e super recomendado.</p>
-                    <p class="product-price">R$ 99,99</p>
-                    <button class="add-to-cart">Adicionar ao Carrinho</button>
-                </div>
-            </div>
-
-            <!-- Produto 2 -->
-            <div class="product-card">
-                <img src="https://via.placeholder.com/300x200" alt="Produto 2" class="product-image">
-                <div class="product-info">
-                    <h3 class="product-title">Produto 2</h3>
-                    <p class="product-description">Produto incrível, com diversas funcionalidades e excelente preço.</p>
-                    <p class="product-price">R$ 149,99</p>
-                    <button class="add-to-cart">Adicionar ao Carrinho</button>
-                </div>
-            </div>
-
-            <!-- Produto 3 -->
-            <div class="product-card">
-                <img src="https://via.placeholder.com/300x200" alt="Produto 3" class="product-image">
-                <div class="product-info">
-                    <h3 class="product-title">Produto 3</h3>
-                    <p class="product-description">Este produto oferece excelente durabilidade e conforto.</p>
-                    <p class="product-price">R$ 199,99</p>
-                    <button class="add-to-cart">Adicionar ao Carrinho</button>
-                </div>
-            </div>
+        <!-- Barra de carregamento -->
+        <div class="loading-bar">
+            <div class="progress"></div>
         </div>
 
-        <footer>
-            &copy; 2024 Loja LIPE | Todos os direitos reservados.
-        </footer>
+        <!-- Texto animado de carregamento -->
+        <div class="loading-text">Preparando os produtos...</div>
+        
+        <!-- Dicas dinâmicas -->
+        <div class="tips" id="tips">Produtos digitais!</div>
+    </div>
+
+    <!-- Tela de Login -->
+    <div class="login-container" id="loginScreen">
+        <div class="logo">Bem-vindo ao Sistema</div>
+        <input type="text" id="loginInput" class="login-input" placeholder="Digite seu código">
+        <button class="login-button" onclick="login()">Entrar</button>
+    </div>
+
+    <!-- Tela de Produtos -->
+    <div class="products-container" id="productsScreen">
+        <div class="product">
+            <img src="https://via.placeholder.com/300" alt="Produto 1">
+            <div class="product-title">Produto 1</div>
+        </div>
+        <div class="product">
+            <img src="https://via.placeholder.com/300" alt="Produto 2">
+            <div class="product-title">Produto 2</div>
+        </div>
+        <div class="product">
+            <img src="https://via.placeholder.com/300" alt="Produto 3">
+            <div class="product-title">Produto 3</div>
+        </div>
     </div>
 
     <script>
+        // Função para parar o áudio
+        const bgAudio = document.getElementById('bg-audio');
+
+        // Simula o progresso de carregamento
+        const progress = document.querySelector('.progress');
+        let load = 0;
+
+        function simulateLoading() {
+            load++;
+            progress.style.width = `${load}%`;
+            if (load < 100) {
+                requestAnimationFrame(simulateLoading);
+            } else {
+                setTimeout(showLoginScreen, 6000); // Exibe a tela de login após 6 segundos
+            }
+        }
+        simulateLoading();
+
+        // Dicas para exibir
         const tips = [
-            "Carregando... atenção : Internet movel ilimitada!",
-            "Carregando... atenção : edição de sites",
-            "Carregando... atenção : artes para eventos",
-            "Carregando... atenção : canais series e filmes",
-            "Carregando... atenção : aproveite promoção fim de ano",
+            "promoção fim de ano!",
+            "internete movel ilimitada chip tim.",
+            "canais,filmes e series iptv.",
+            "adquire tabem outros serviçoes.",
+            "promoção valida só por esse periodo."
         ];
 
-        let tipIndex = 0;
-        const tipsElement = document.querySelector('.tips p');
+        // Função para alterar as dicas
+        const tipsElement = document.getElementById("tips");
+        let currentTip = 0;
 
-        setInterval(() => {
-            tipIndex = (tipIndex + 1) % tips.length;
-            tipsElement.textContent = tips[tipIndex];
-        }, 5000);
+        function changeTip() {
+            currentTip = (currentTip + 1) % tips.length;
+            tipsElement.textContent = tips[currentTip];
+        }
 
-        // Função para redirecionar para a página de produtos após o carregamento
+        // Mudar dica a cada 3 segundos
+        setInterval(changeTip, 3000);
+
+        // Mostrar tela de login
+        function showLoginScreen() {
+            document.querySelector('.loading-container').style.display = 'none';
+            document.getElementById('loginScreen').style.display = 'block';
+        }
+
+        // Função de login
+function login() {
+    const loginInput = document.getElementById('loginInput').value;
+    const validLogins = ['promo24', 'lipe', 'dsg91'];
+
+    if (validLogins.includes(loginInput)) {
+        // Exibe uma mensagem de boas-vindas no lugar do alert
+        document.querySelector('.login-container').innerHTML = `<div class="welcome-message">Bem-vindo, ${loginInput}!</div>`;
+        bgAudio.pause(); // Para o áudio ao clicar em Entrar
+        document.getElementById('loginScreen').style.display = 'none';
+        showProductsScreen(); // Exibe a tela de produtos após o login
+    } else {
+        // Em vez de alertar, você pode esconder a tela de login ou mostrar uma mensagem de erro
+        document.querySelector('.login-container').innerHTML = `<div class="error-message">Login inválido. Tente novamente.</div>`;
         setTimeout(() => {
-            document.querySelector('.overlay').style.display = 'none';
-            document.querySelector('.logo').style.display = 'none';
-            document.querySelector('.loading-bar-container').style.display = 'none';
-            document.querySelector('.tips').style.display = 'none';
-            document.querySelector('.loading-text').style.display = 'none'; // Esconde o texto "Carregando aguarde..."
-            document.querySelector('.main-screen').style.display = 'block';
-        }, 20000); // 20 segundos para exibir a tela inicial
+            // Remove a mensagem de erro após 3 segundos
+            document.querySelector('.login-container').innerHTML = '';
+        }, 3000);
+    }
+}
 
-        // Função para esconder o carregamento, parar a música e mostrar a página de produtos
-        function entrar() {
-            // Parar a música ao fechar o iframe
-            const iframe = document.getElementById('music-iframe');
-            iframe.src = "";  // Isso vai parar o vídeo/música
 
-            // Esconde a tela de carregamento
-            document.querySelector('.main-screen').style.display = 'none';
-            // Exibe a página de produtos
-            document.querySelector('.product-page').style.display = 'block';
+        // Mostrar tela de produtos
+        function showProductsScreen() {
+            setTimeout(() => {
+                document.getElementById('productsScreen').style.display = 'block';
+            }, 500); // Exibe a tela de produtos após meio segundo
         }
     </script>
-
 </body>
 </html>
