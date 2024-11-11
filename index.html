@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PUBG Loading Screen</title>
+    <title>LOJA LIPE</title>
     <style>
         /* Reset CSS */
         * {
@@ -258,7 +258,7 @@
 
     <!-- Tela de Login -->
     <div class="login-container" id="loginScreen">
-        <div class="logo">Bem-vindo ao Sistema</div>
+        <div class="logo">BEM VINDO A LOJA LIPE</div>
         <input type="text" id="loginInput" class="login-input" placeholder="Digite seu código">
         <button class="login-button" onclick="login()">Entrar</button>
     </div>
@@ -323,8 +323,9 @@
         function showLoginScreen() {
             document.querySelector('.loading-container').style.display = 'none';
             document.getElementById('loginScreen').style.display = 'block';
-        
-      // Função de login
+        }
+
+        // Função de login
 function login() {
     const loginInput = document.getElementById('loginInput').value;
     const validLogins = ['promo24', 'lipe', 'dsg91'];
@@ -343,10 +344,15 @@ function login() {
             document.querySelector('.login-container').innerHTML = '';
         }, 3000);
     }
+}
 
-       // Inicializar flocos de neve
-        createSnowflakes();
+
+        // Mostrar tela de produtos
+        function showProductsScreen() {
+            setTimeout(() => {
+                document.getElementById('productsScreen').style.display = 'block';
+            }, 500); // Exibe a tela de produtos após meio segundo
+        }
     </script>
-
 </body>
 </html>
